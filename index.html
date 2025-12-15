@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smith-Kerns Dollar Spot 発生確率マップ</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smith-Kerns Dollar Spot 発生確率マップ</h1>
+            <p class="subtitle">Dollar Spotの発生確率をSmith-Kernsモデルを使用し地図上に表示</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 左側: コントロールパネル -->
+            <div class="control-panel">
+                <section class="section">
+                    <h2>NASA POWERデータ取得</h2>
+                    <p class="info-text">過去の気象データを自動取得します</p>
+                    
+                    <div class="form-group">
+                        <label for="dataLat">緯度:</label>
+                        <input type="number" id="dataLat" step="0.0001" value="35.8607">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dataLng">経度:</label>
+                        <input type="number" id="dataLng" step="0.0001" value="140.5433">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dataDate">日付:</label>
+                        <input type="date" id="dataDate">
+                    </div>
+                    
+                    <button id="getLocationBtn" class="btn btn-secondary">現在位置を取得</button>
+                    <button id="fetchDataBtn" class="btn btn-primary">NASA POWERから取得</button>
+                    
+                    <div id="fetchStatus" class="status-message"></div>
+                </section>
+
+                <section class="section">
+                    <h2>基本設定</h2>
+                    
+                    <div class="form-group">
+                        <label for="avgTemp">5日間平均気温 (°C):</label>
+                        <input type="number" id="avgTemp" step="0.1" value="22.0" min="10" max="35">
+                        <small>10°C ～ 35°C</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="avgHumidity">5日間平均湿度 (%):</label>
+                        <input type="number" id="avgHumidity" step="0.1" value="75.0" min="0" max="100">
+                        <small>0% ～ 100%</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="probValue">発生確率:</label>
+                        <div id="probValue" class="probability-value">0.0%</div>
+                    </div>
+                    
+                    <button id="calculateBtn" class="btn btn-primary">確率を計算して表示</button>
+                </section>
+
+                <section class="section info-section">
+                    <h2>凡例</h2>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #00ff00;"></span>
+                            <span>0-20% (低リスク)</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #ffff00;"></span>
+                            <span>20-40%</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #ff8800;"></span>
+                            <span>40-60%</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #ff0000;"></span>
+                            <span>60-80%</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #8b0000;"></span>
+                            <span>80-100% (高リスク)</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 右側: マップ -->
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- アプリケーションJavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
